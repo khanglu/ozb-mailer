@@ -1,0 +1,28 @@
+{
+  "name": "ozb-mailer",
+  "version": "1.0.0",
+  "description": "Mailer for ozbargain best deals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khanglu/ozb-mailer.git"
+  },
+  "keywords": [
+    "ozbargain",
+    "mailer"
+  ],
+  "author": "Khang Lu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khanglu/ozb-mailer/issues"
+  },
+  "homepage": "https://github.com/khanglu/ozb-mailer#readme",
+  "devDependencies": {
+    "cheerio": "^0.22.0",
+    "express": "^4.15.1",
+    "request": "^2.80.0"
+  }
+}
