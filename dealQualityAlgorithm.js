@@ -1,16 +1,12 @@
-const timeStringToFloat = (timeString) => {
-  // E.g. ' 8 hours 32 minutes ago ' will return ["8","32"]
-  const timeArray = timeString.match(/\d+/g)
-  // E.g. ["8","32"] to 8.53
-  return parseFloat(timeArray[0]) + parseFloat(timeArray[1])/60
-}
-
+const moment = require('moment')
 
 // This will be optimised overtime
 const dealQualityAlgorithm = (upvoteCount, timeAgo) => {
-  const time = timeStringToFloat(timeAgo)
+  const timeThen = moment(timeAgo, 'DD/MM/YYYY - hh:mm')
+  const timeNow = moment()
+  const timeDiff = timeNow.diff(timeThen, 'minutes')
 
-  return time > .5 && upvoteCount/time > 10
+  return timeDiff > 30 && upvoteCount/(timeDiff/60) > 10
 }
 
 module.exports = dealQualityAlgorithm

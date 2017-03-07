@@ -4,6 +4,7 @@ const cheerio = require('cheerio')
 const nodemailer = require('nodemailer')
 const {sender, receiver, poolConfig} = require('./mailconfig')
 const dealQualityAlgorithm = require('./dealQualityAlgorithm')
+const moment = require('moment')
 
 let transporter = nodemailer.createTransport(poolConfig)
 const mins = 60
@@ -25,15 +26,15 @@ const ozbmailer = () => {
       // Finally, we'll define the variables we're going to capture
       $('.node-ozbdeal').map((i, node) => {
         const title = $(node).find($('h2.title')).find('a').text()
-        const link = $(node).find($('h2.title')).find('a').attr('href')
+        const id = $(node).find($('h2.title')).find('a').attr('href').substr(6)
         const upvote = $(node).find($('span.voteup')).children().last().text()
         const description = $(node).find($('div.content')).children().text()
         const timeAgo = $(node).find($('div.submitted')).contents().filter((i, child) => (
           child.type === 'text'
-        )).text();
+        )).text().substring(4, 22);
         const deal = {
           title: title,
-          link: link,
+          id: id,
           upvote: upvote,
           description: description,
           timeAgo: timeAgo
@@ -45,14 +46,15 @@ const ozbmailer = () => {
       })
 
       goodDeals.map((item) => {
+        const agoString = moment(item.timeAgo, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
         // Email format
         const message = {
           from: sender,
           to: receiver,
           subject: 'OZB Hot Deal: ' + item.title,
           text: JSON.stringify(item),
-          html: '<p>' + item.upvote + ' upvotes in' + item.timeAgo + '. <a href="http://www.ozbargain.com.au' + item.link + '">Link to deal</a>' + '</p>' +
-                '<p>' + item.description + '</p>'
+          html: '<p>' + item.upvote + ' upvotes. Deal posted ' + agoString + '. <a href="http://www.ozbargain.com.au/node/' + item.id + '">Link to deal</a>' + '</p>' +
+                '<p>Description: ' + item.description + '</p>'
         };
         // Send email
         transporter.sendMail(message, (err, info) => {
