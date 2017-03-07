@@ -24,11 +24,13 @@ const ozbmailer = () => {
       let goodDeals = []
       // Finally, we'll define the variables we're going to capture
       $('.node-ozbdeal').map((i, node) => {
-        const title = $(node).find($('h2.title')).children().text()
-        const link = $(node).find($('h2.title')).children().attr('href')
+        const title = $(node).find($('h2.title')).find('a').text()
+        const link = $(node).find($('h2.title')).find('a').attr('href')
         const upvote = $(node).find($('span.voteup')).children().last().text()
         const description = $(node).find($('div.content')).children().text()
-        const timeAgo = $(node).find($('div.submitted')).text()
+        const timeAgo = $(node).find($('div.submitted')).contents().filter((i, child) => (
+          child.type === 'text'
+        )).text();
         const deal = {
           title: title,
           link: link,
@@ -49,7 +51,7 @@ const ozbmailer = () => {
           to: receiver,
           subject: 'OZB Hot Deal: ' + item.title,
           text: JSON.stringify(item),
-          html: '<p>' + item.upvote + 'upvotes in' + item.timeAgo + '. <a href="http://www.ozbargain.com.au' + item.link + '">Link to deal</a>' + '</p>' +
+          html: '<p>' + item.upvote + ' upvotes in' + item.timeAgo + '. <a href="http://www.ozbargain.com.au' + item.link + '">Link to deal</a>' + '</p>' +
                 '<p>' + item.description + '</p>'
         };
         // Send email
