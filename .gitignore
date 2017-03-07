@@ -18,3 +18,4 @@ yarn-error.log*
 
 # output
 output.json
+mailconfig.js

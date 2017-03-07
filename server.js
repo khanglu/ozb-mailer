@@ -1,13 +1,18 @@
-const express = require('express')
 const fs = require('fs')
 const request = require('request')
 const cheerio = require('cheerio')
-const app = express()
+const nodemailer = require('nodemailer')
+const {sender, receiver, poolConfig} = require('./mailconfig')
+const dealQualityAlgorithm = require('./dealQualityAlgorithm')
 
-app.get('/scrape', (req, res) => {
+let transporter = nodemailer.createTransport(poolConfig)
+const mins = 60
+const the_interval = mins * 60 * 1000
+
+// All logic for the mailer goes here
+const ozbmailer = () => {
   // URL we will scrape from
   const url = 'http://www.ozbargain.com.au'
-  let deals = []
   // The structure of our request call
   // The first parameter is our URL
   // The callback function takes 3 parameters, an error, response status code and the html
@@ -16,36 +21,52 @@ app.get('/scrape', (req, res) => {
     if(!error){
       // Next, we'll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
       const $ = cheerio.load(html);
-      let deals = []
+      let goodDeals = []
       // Finally, we'll define the variables we're going to capture
       $('.node-ozbdeal').map((i, node) => {
         const title = $(node).find($('h2.title')).children().text()
-        const voteup = $(node).find($('span.voteup')).children().last().text()
-        const deal = {title: title, voteup: voteup}
-        console.log(deal)
-        deals.push(deal)
+        const link = $(node).find($('h2.title')).children().attr('href')
+        const upvote = $(node).find($('span.voteup')).children().last().text()
+        const description = $(node).find($('div.content')).children().text()
+        const timeAgo = $(node).find($('div.submitted')).text()
+        const deal = {
+          title: title,
+          link: link,
+          upvote: upvote,
+          description: description,
+          timeAgo: timeAgo
+        }
+        if(dealQualityAlgorithm(parseInt(upvote),timeAgo)) {
+          console.log(deal)
+          goodDeals.push(deal)
+        }
       })
 
-      // To write to the system we will use the built in 'fs' library.
-      // In this example we will pass 3 parameters to the writeFile function
-      // Parameter 1 :  output.json - this is what the created filename will be called
-      // Parameter 2 :  JSON.stringify(deals, null, 4) - the data to write
-      // Parameter 3 :  callback function - a callback function to let us know the status of our function
-      fs.writeFile('output.json', JSON.stringify(deals, null, 2), function(err){
-        if(err){
-          console.log(err)
-        }
-        console.log('File successfully written! - Check your project directory for the output.json file');
+      goodDeals.map((item) => {
+        // Email format
+        const message = {
+          from: sender,
+          to: receiver,
+          subject: 'OZB Hot Deal: ' + item.title,
+          text: JSON.stringify(item),
+          html: '<p>' + item.upvote + 'upvotes in' + item.timeAgo + '. <a href="http://www.ozbargain.com.au' + item.link + '">Link to deal</a>' + '</p>' +
+                '<p>' + item.description + '</p>'
+        };
+        // Send email
+        transporter.sendMail(message, (err, info) => {
+          if (err) {
+            console.log(err)
+          }
+          console.log(info)
+        })
       })
+
     }
   })
 
-  // Finally, we'll just send out a message to the browser reminding you that this app does not have a UI.
-  res.send('Check your console!')
-})
+}
 
-app.listen('8081')
-console.log('Magic happens on port 8081')
-
-exports = module.exports = app;
+// Run once before entering intervals
+ozbmailer()
+setInterval(ozbmailer, the_interval)
 

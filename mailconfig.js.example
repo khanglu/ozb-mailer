@@ -1,0 +1,15 @@
+const sender = 'abc@xyz.com'
+const receiver = 'xyz@123.com'
+
+const poolConfig = {
+  pool: true,
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // use TLS
+  auth: {
+    user: 'username',
+    pass: 'password'
+  }
+};
+
+module.exports = {sender, receiver, poolConfig}
