@@ -22,7 +22,7 @@ MongoClient.connect(dbUrl, (err, database) => {
             console.log(err)
           } else {
             // Email format
-            const agoString = moment(item.timeAgo, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
+            const agoString = moment(item.time_posted, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
             const message = {
               from: sender,
               to: receiver,
