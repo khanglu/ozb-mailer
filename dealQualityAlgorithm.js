@@ -6,7 +6,7 @@ const dealQualityAlgorithm = (upvoteCount, timeAgo) => {
   const timeNow = moment()
   const timeDiff = timeNow.diff(timeThen, 'minutes')
 
-  return timeDiff > 30 && upvoteCount/(timeDiff/60) > 10
+  return timeDiff > 15 && upvoteCount/(timeDiff/60) > 30
 }
 
 module.exports = dealQualityAlgorithm

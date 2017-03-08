@@ -18,4 +18,4 @@ yarn-error.log*
 /.idea
 testing.js
 output.json
-mailconfig.js
+config.js
