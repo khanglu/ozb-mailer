@@ -12,4 +12,6 @@ const poolConfig = {
   }
 };
 
-module.exports = {sender, receiver, poolConfig}
+const dbUrl = 'mlab-url'
+
+module.exports = {sender, receiver, poolConfig, dbUrl}
