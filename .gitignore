@@ -17,5 +17,3 @@ yarn-debug.log*
 yarn-error.log*
 .idea
 testing.js
-output.json
-config.js

@@ -1,4 +1,4 @@
-const sender = 'ozb.mailer@gmail.com'
+const sender = process.env.MAIL_USR
 const receiver = 'lulephuckhang@gmail.com'
 
 const poolConfig = {

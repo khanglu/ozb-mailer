@@ -22,7 +22,7 @@ MongoClient.connect(dbUrl, (err, database) => {
           database.collection('deals').insertOne(deal, (err) => {
             if (err) {
               if (err.name === 'MongoError' && err.code === 11000) {
-                console.log('No new good deal!')
+                console.log('No new good deal! Just old deals!')
               } else {
                 console.log(err)
               }
