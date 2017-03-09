@@ -15,6 +15,7 @@ MongoClient.connect(dbUrl, (err, database) => {
     console.log(err)
   }
   const ozbmailer = () => {
+    moment().format('MMMM Do YYYY, h:mm:ss a')
     dealScraper((goodDeals) => {
       if (goodDeals.length > 0) {
         goodDeals.map((deal) => {

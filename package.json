@@ -4,6 +4,7 @@
   "description": "Mailer for ozbargain best deals",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,14 +21,11 @@
     "url": "https://github.com/khanglu/ozb-mailer/issues"
   },
   "homepage": "https://github.com/khanglu/ozb-mailer#readme",
-  "devDependencies": {
+  "dependencies": {
+    "mongodb": "^2.2.24",
     "cheerio": "^0.22.0",
-    "express": "^4.15.1",
     "moment": "^2.17.1",
     "nodemailer": "^3.1.4",
     "request": "^2.80.0"
-  },
-  "dependencies": {
-    "mongodb": "^2.2.24"
   }
 }
