@@ -52,6 +52,7 @@ MongoClient.connect(dbUrl, (err, database) => {
         console.log('No good deal!')
       }
     })
+    console.log('Next fetch in ' + moment().add(mins, 'minutes').format('hh:mmA, ddd, DD MMM, YYYY'))
   }
 
   // Run once before entering intervals
