@@ -1,5 +1,5 @@
 const sender = process.env.MAIL_USR
-const receiver = 'lulephuckhang@gmail.com'
+const receiver = process.env.MAIL_RCVR
 
 const poolConfig = {
   pool: true,
