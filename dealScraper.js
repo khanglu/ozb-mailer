@@ -11,23 +11,26 @@ const dealScraper = (callback) => {
       let goodDeals = []
       // Map through all deal nodes
       $('.node-ozbdeal').map((i, node) => {
-        const deal_id = $(node).find($('h2.title')).find('a').attr('href').substr(6)
-        const title = $(node).find($('h2.title')).find('a').text()
-        const upvote = $(node).find($('span.voteup')).children().last().text()
-        const time_posted = $(node).find($('div.submitted')).contents().filter((i, child) => (
-          child.type === 'text'
-        )).text().substring(4, 22);
-        const description = $(node).find($('div.content')).children().text()
-        const deal = {
-          title: title,
-          deal_id: deal_id,
-          upvote: upvote,
-          description: description,
-          time_posted: time_posted
-        }
-        if(dealQualityAlgorithm(parseInt(upvote),time_posted)) {
-          console.log(deal)
-          goodDeals.push(deal)
+        const dealExpiredTag = $(node).find($('span.expired')).text()
+        // First check if deal is Expired or Out of stock
+        if (!dealExpiredTag.includes('expired') && !dealExpiredTag.includes('out of stock')) {
+          const deal_id = $(node).find($('h2.title')).find('a').attr('href').substr(6)
+          const title = $(node).find($('h2.title')).find('a').text()
+          const upvote = $(node).find($('span.voteup')).children().last().text()
+          const time_posted = $(node).find($('div.submitted')).contents().filter((i, child) => (
+            child.type === 'text'
+          )).text().substring(4, 22);
+          const description = $(node).find($('div.content')).children().text()
+          const deal = {
+            title: title,
+            deal_id: deal_id,
+            upvote: upvote,
+            description: description,
+            time_posted: time_posted
+          }
+          if(dealQualityAlgorithm(parseInt(upvote),time_posted)) {
+            goodDeals.push(deal)
+          }
         }
       })
       callback(goodDeals)
