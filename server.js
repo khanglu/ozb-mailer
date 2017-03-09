@@ -17,24 +17,25 @@ MongoClient.connect(dbUrl, (err, database) => {
   const ozbmailer = () => {
     dealScraper((goodDeals) => {
       if (goodDeals.length > 0) {
-        console.log(goodDeals)
-        goodDeals.map((item) => {
-          database.collection('deals').insertOne(item, (err) => {
+        goodDeals.map((deal) => {
+          database.collection('deals').insertOne(deal, (err) => {
             if (err) {
               if (err.name === 'MongoError' && err.code === 11000) {
-                // Do nothing
+                console.log('No new good deal!')
               } else {
                 console.log(err)
               }
             } else {
+              // Print out the deal to the console
+              console.log(deal)
               // Email format
-              const agoString = moment(item.time_posted, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
+              const agoString = moment(deal.time_posted, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
               const message = {
                 from: sender,
                 to: receiver,
-                subject: item.title,
-                text: JSON.stringify(item),
-                html: '<p>' + '<a href="http://www.ozbargain.com.au/node/' + item.deal_id + '">Link to deal</a>' + item.upvote + ' upvotes. Deal posted ' + agoString + '.</p>'
+                subject: deal.title,
+                text: JSON.stringify(deal),
+                html: '<p>' + '<a href="http://www.ozbargain.com.au/node/' + deal.deal_id + '">Link to deal</a>. Deal posted ' + agoString + '.</p>'
               };
               // Send email
               transporter.sendMail(message, (err, info) => {
@@ -47,7 +48,7 @@ MongoClient.connect(dbUrl, (err, database) => {
           })
         })
       } else {
-        console.log('No new good deal!')
+        console.log('No good deal!')
       }
     })
   }
