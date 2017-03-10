@@ -14,6 +14,7 @@ const dealScraper = (callback) => {
         const dealExpiredTag = $(node).find($('span.expired')).text()
         // First check if deal is Expired or Out of stock
         if (!dealExpiredTag.includes('expired') && !dealExpiredTag.includes('out of stock')) {
+          // Getting all needed information
           const deal_id = $(node).find($('h2.title')).find('a').attr('href').substr(6)
           const title = $(node).find($('h2.title')).find('a').text()
           const upvote = $(node).find($('span.voteup')).children().last().text()
@@ -21,6 +22,7 @@ const dealScraper = (callback) => {
             child.type === 'text'
           )).text().substring(4, 22);
           const description = $(node).find($('div.content')).children().text()
+          // Construct the deal object
           const deal = {
             title: title,
             deal_id: deal_id,
@@ -28,7 +30,9 @@ const dealScraper = (callback) => {
             description: description,
             time_posted: time_posted
           }
+          // Check if the deal is good
           if(dealQualityAlgorithm(parseInt(upvote),time_posted)) {
+            // If it's good, push it to the goodDeals array, get ready to add to database and send out via email
             goodDeals.push(deal)
           }
         }
