@@ -21,13 +21,11 @@ const dealScraper = (callback) => {
           const time_posted = $(node).find($('div.submitted')).contents().filter((i, child) => (
             child.type === 'text'
           )).text().substring(4, 22);
-          const description = $(node).find($('div.content')).children().text()
           // Construct the deal object
           const deal = {
             title: title,
             deal_id: deal_id,
             upvote: upvote,
-            description: description,
             time_posted: time_posted
           }
           // Check if the deal is good
