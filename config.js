@@ -1,5 +1,4 @@
 const sender = process.env.MAIL_USR
-const receiver = process.env.MAIL_RCVR
 
 const poolConfig = {
   pool: true,
@@ -14,4 +13,4 @@ const poolConfig = {
 
 const dbUrl = 'mongodb://' + process.env.MLAB_USR + ':' + process.env.MLAB_PWD +'@ds121980.mlab.com:21980/ozb-mailer'
 
-module.exports = {sender, receiver, poolConfig, dbUrl}
+module.exports = {sender, poolConfig, dbUrl}

@@ -1,9 +1,10 @@
 const fs = require('fs')
 const nodemailer = require('nodemailer')
-const {sender, receiver, poolConfig, dbUrl} = require('./config')
+const { poolConfig, dbUrl } = require('./config')
 const moment = require('moment')
 const MongoClient = require('mongodb').MongoClient;
 const dealScraper = require('./dealScraper')
+const emailMessage = require('./emailMessage')
 
 let transporter = nodemailer.createTransport(poolConfig)
 // We run the whole process every 10 minutes
@@ -11,9 +12,7 @@ const mins = 10
 const the_interval = mins * 60 * 1000
 
 
-/* Brace yourself, callback hell is coming. I could have just gone with promises
- * but I want to try out how writing callbacks feels like, that way I can appreciate
- * promises and await/async more */
+/* Brace yourself, callback hell is coming. */
 
 // For simple database interactions, MongoClient is more than sufficient
 MongoClient.connect(dbUrl, (err, database) => {
@@ -39,24 +38,20 @@ MongoClient.connect(dbUrl, (err, database) => {
                 console.log(err)
               }
             } else {
-              // Print out the deal to the console
-              console.log(deal)
-              // Format email message
-              const agoString = moment(deal.time_posted, 'DD/MM/YYYY - hh:mm').fromNow() // E.g. 3 hours ago
-              const message = {
-                from: sender,
-                to: receiver,
-                subject: deal.title,
-                text: JSON.stringify(deal),
-                html: '<p>' + '<a href="http://www.ozbargain.com.au/node/' + deal.deal_id + '">Link to deal</a>. Deal posted ' + agoString + '.</p>'
-              };
-              database.collection('emails').find().
-              // Send email
-              transporter.sendMail(message, (err, info) => {
-                if (err) {
-                  console.log(err)
+              // Print out the deal title to the console
+              console.log('New deal found: ' + deal.title)
+              // Get all emails from database, send the deal to each of them
+              database.collection('emails').find().each((err, email) => {
+                // .each will return null at the end so make sure you check for email availability
+                if(email) {
+                  const message = emailMessage(email.email_address, deal)
+                  transporter.sendMail(message, (err, info) => {
+                    if (err) {
+                      console.log(err)
+                    }
+                    console.log('\nEmail sent to ' + email.email_address)
+                  })
                 }
-                console.log('\nEMAIL SENT!')
               })
             }
           })
@@ -72,6 +67,4 @@ MongoClient.connect(dbUrl, (err, database) => {
   ozbmailer()
   setInterval(ozbmailer, the_interval)
 })
-
-
 
