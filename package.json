@@ -1,6 +1,6 @@
 {
   "name": "ozb-mailer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Mailer for ozbargain best deals",
   "main": "index.js",
   "scripts": {
@@ -11,10 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/khanglu/ozb-mailer.git"
   },
-  "keywords": [
-    "ozbargain",
-    "mailer"
-  ],
+  "keywords": ["ozbargain", "mailer"],
   "author": "Khang Lu",
   "license": "ISC",
   "bugs": {

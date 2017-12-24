@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const { poolConfig } = require("./config");
+const { poolConfig } = require("../config");
 let transporter = nodemailer.createTransport(poolConfig);
 
 const emailSender = (message, email) => {

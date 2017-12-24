@@ -1,6 +1,6 @@
 const dealScraper = require("../deal-scraper/deal-scraper");
-const emailMessage = require("../emailMessage");
-const emailSender = require("./email-sender/email-sender");
+const emailMessage = require("../email-message/email-message");
+const emailSender = require("../email-sender/email-sender");
 const mins = 10;
 
 const ozbmailer = database => {
