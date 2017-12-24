@@ -1,0 +1,14 @@
+{
+  "extends": "prettier",
+  "rules": {
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }],
+    "no-undef": "error"
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "node": true,
+    "jest": true
+  }
+}
