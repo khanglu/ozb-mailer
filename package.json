@@ -11,7 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/khanglu/ozb-mailer.git"
   },
-  "keywords": ["ozbargain", "mailer"],
+  "keywords": [
+    "ozbargain",
+    "mailer"
+  ],
   "author": "Khang Lu",
   "license": "ISC",
   "bugs": {
