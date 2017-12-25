@@ -17,5 +17,5 @@ MongoClient.connect(dbUrl, (err, database) => {
   }
   // Run once before entering intervals
   ozbmailer(database);
-  setInterval(ozbmailer, the_interval);
+  setInterval(() => ozbmailer(database), the_interval);
 });
