@@ -2,8 +2,8 @@ const cheerio = require("cheerio");
 const request = require("request");
 const dealQualityAlgorithm = require("../deal-quality-algorithm/deal-quality-algorithm");
 
-const dealScraper = callback => {
-  request("http://www.ozbargain.com.au", (error, response, html) => {
+const dealScraper = (callback, qualityRatio) => {
+  request("http://www.ozbargain.com.au/deals", (error, response, html) => {
     // First we'll check to make sure no errors occurred when making the request
     if (!error) {
       // Next, use cheerio to query the DOM
@@ -48,7 +48,9 @@ const dealScraper = callback => {
             time_posted: time_posted
           };
           // Check if the deal is good
-          if (dealQualityAlgorithm(parseInt(upvote), time_posted)) {
+          if (
+            dealQualityAlgorithm(parseInt(upvote), time_posted, qualityRatio)
+          ) {
             // If it's good, push it to the goodDeals array, get ready to add to database and send out via email
             goodDeals.push(deal);
           }

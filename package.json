@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "jest"
+    "test": "jest",
+    "log-deals": "node deal-logger.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/khanglu/ozb-mailer.git"
   },
-  "keywords": [
-    "ozbargain",
-    "mailer"
-  ],
+  "keywords": ["ozbargain", "mailer"],
   "author": "Khang Lu",
   "license": "ISC",
   "bugs": {
