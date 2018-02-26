@@ -1,7 +1,7 @@
 const sender = process.env.MAIL_USR;
 
 const poolConfig = {
-  service: "gmail",
+  service: process.env.MAIL_SERVICE,
   auth: {
     user: process.env.MAIL_USR,
     pass: process.env.MAIL_PWD
