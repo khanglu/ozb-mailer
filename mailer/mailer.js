@@ -45,4 +45,5 @@ const ozbmailer = database => {
     console.log("Next fetch in " + mins + " minutes");
   });
 };
+
 module.exports = ozbmailer;
