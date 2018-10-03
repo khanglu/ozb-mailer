@@ -6,8 +6,8 @@ const { dbUrl } = require("./config");
 const MongoClient = require("mongodb").MongoClient;
 const ozbmailer = require("./mailer/mailer");
 
-// We run the whole process every 10 minutes
-const mins = 10;
+// We run the whole process every 10 minutes by default
+const mins = parseInt(process.env.REFRESH_RATE_MINUTES) || 10;
 const the_interval = mins * 60 * 1000;
 
 // For simple database interactions, MongoClient is more than sufficient
