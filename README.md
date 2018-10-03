@@ -1,7 +1,7 @@
 ### ozb-mailer
 
 ### How it works
-- Fetches all of the front page deals from the OzBargain front page
+- Fetches all of the front page deals from the OzBargain home page
 - Evaluates whether a deal has expired, ran out of stock or is still valid
 - Constructs a JSON to house all of the deals
 - Process the JSON through an algorithm to determine whether a deal is good or not
