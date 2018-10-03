@@ -1,11 +1,11 @@
-### ozb-mailer
+### OzBargain-Mailer
 
 ### How it works
-- Fetches all of the front page deals from the OzBargain front page
-- Evaluates whether a deal has expired, ran out of stock or is still valid
+- Fetches all the deals from the OzBargain front page.
+- Evaluates whether a deal has expired, run out of stock or is still valid
 - Constructs a JSON to house all of the deals
-- Process the JSON through an algorithm to determine whether a deal is good or not
-- If a deal is good, then add to mongoDB and send email(s) to designated email address(es)
+- Processes the JSON through an algorithm to determine whether a deal is good or not
+- If a deal is good, then its adds to mongoDB and sends an email(s) to the designated email address(es)
 
 ### Powered by
 - [cheerio](https://github.com/cheeriojs/cheerio) - jQuery implementation on the server
