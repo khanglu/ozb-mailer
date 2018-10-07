@@ -7,4 +7,6 @@ const dealQualityAlgorithm = (upvoteCount, timeAgo, qualityRatio = 20) => {
   return timeDiff > 5 && upvoteCount / (timeDiff / 60) > qualityRatio;
 };
 
+
+
 module.exports = dealQualityAlgorithm;
