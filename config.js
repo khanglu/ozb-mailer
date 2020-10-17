@@ -9,10 +9,10 @@ const poolConfig = {
 };
 
 const dbUrl =
-  "mongodb://" +
+  "mongodb+srv://" + 
   process.env.MLAB_USR +
   ":" +
   process.env.MLAB_PWD +
-  "@ds121980.mlab.com:21980/ozb-mailer";
+  "@cluster0.4fazy.mongodb.net/ozb-mailer?retryWrites=true&w=majority"
 
 module.exports = { sender, poolConfig, dbUrl };
