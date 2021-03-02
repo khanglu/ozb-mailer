@@ -1,4 +1,4 @@
-### ozb-mailer
+# ozb-mailer
 
 ### How it works
 - Fetch all of the front page deals from the OzBargain front page
